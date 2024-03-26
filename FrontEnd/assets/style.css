@@ -179,7 +179,29 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 }
-
+#login h2 {display: flex;
+	justify-content: center;
+padding-bottom: 20px;}
+	#login input {display: flex;
+		justify-content: center;
+	margin-right:50px;
+}
+		#login {
+			width: 60%; /* Réduire la largeur du formulaire */
+			margin: 0 auto; /* Centrer horizontalement le formulaire */
+			text-align: center; /* Centrer le contenu à l'intérieur du formulaire */
+		  }
+		  
+		  #login form {
+			display: inline-block; /* Permet d'aligner les éléments du formulaire horizontalement */
+			text-align: left; /* Aligner le texte à gauche à l'intérieur du formulaire */
+		  }
+		  #email , #password { width: 23.688em;
+		height:3.188em ;}
+		#loginBtn {margin-left:90px;
+		height: 36px;
+	width:179px;}
+		#login p{margin-right:30px;}
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
