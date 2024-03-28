@@ -208,3 +208,15 @@ footer nav ul {
 	margin: 2em
 }
 
+button{border-radius: 50px ;
+	 
+      color:#1D6154;
+      background-color:white;
+      margin-left:5px;
+	  padding:10px;
+      
+}
+.filtres{
+margin-bottom: 30px;
+display:flex;
+justify-content:center;}
