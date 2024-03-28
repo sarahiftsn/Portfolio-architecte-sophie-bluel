@@ -61,5 +61,18 @@ async function displayCategoriesButtons() {
 
 displayCategoriesButtons();
 
+//Filtrer au clic sur le bouton par catégorie
+async function filterCategory (){
+    const filter = await getWorks()
+    console.log(filter);
+    const buttons = document.querySelectorAll(".filtres button");
+    buttons.forEach (button => {
+        button.addEventListener("click", (e) => {
+        console.log("coucou");
+        });
+    });
+ }
+filterCategory();
+
 
 
