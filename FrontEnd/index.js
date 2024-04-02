@@ -102,3 +102,21 @@ async function filterCategory() {
 }
 
 filterCategory();
+
+
+// Changements quand user connecté //
+const loged = window.sessionStorage.loged; // Récupère le statut de connexion depuis le sessionStorage
+const admin = document.querySelector("header nav .admin");
+const logout = document.querySelector("header nav .logout");
+
+if (loged == "true") {
+  // Si l'utilisateur est connecté
+  admin.textContent = "Admin";
+  logout.textContent = "Logout";
+
+  logout.addEventListener("click", () => {
+    // Ajoute un écouteur d'événement au bouton de déconnexion
+    window.sessionStorage.loged = false; // Met à jour le statut de connexion dans le sessionStorage
+    window.location.href = "./logout.html"; // Redirige vers la page de déconnexion
+  });
+}
