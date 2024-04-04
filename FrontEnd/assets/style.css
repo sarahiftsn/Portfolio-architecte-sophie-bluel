@@ -222,3 +222,22 @@ button{border-radius: 50px ;
 margin-bottom: 30px;
 display:flex;
 justify-content:center;}
+
+
+.containerModals{display:flex;
+margin-top: 0em;
+justify-content:center;
+align-items:center;
+}
+.modalgallery{background-color:#FFFFFF;
+box-sizing: border-box;
+width:630px;
+height:498px;
+border-radius:5px;
+display:flex;
+justify-content:space-around;
+flex-direction: column;
+align-items:center;}
+.modalgallery span {padding-left:400px;
+padding-bottom:10px;}
+.modalgallery h2{padding-bottom:80px;}
