@@ -218,26 +218,45 @@ button{border-radius: 50px ;
 	  padding:10px;
       
 }
+button:hover{background-color:#1D6154;
+color: #FFFFFF;}
 .filtres{
 margin-bottom: 30px;
 display:flex;
 justify-content:center;}
 
 
-.containerModals{display:flex;
-margin-top: 0em;
-justify-content:center;
-align-items:center;
+.containerModals{position: absolute;
+	top: 75%;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	
 }
 .modalgallery{background-color:#FFFFFF;
 box-sizing: border-box;
 width:630px;
-height:498px;
+height:680px;
 border-radius:5px;
 display:flex;
 justify-content:space-around;
 flex-direction: column;
 align-items:center;}
-.modalgallery span {padding-left:400px;
-padding-bottom:10px;}
-.modalgallery h2{padding-bottom:80px;}
+.modalgallery span {padding-left:370px;
+margin-bottom: -5px;
+margin-top: 10px;
+
+}
+.modalgallery h2{margin-bottom:-5px;}
+.modifier{display: flex;
+justify-content: center;
+gap: 10px;}
+.inactive{display: none;}
+.gallerymodal{display: flex;
+	flex-wrap: wrap;}
+.gallerymodal img {width: 110px;
+margin:5px;
+height:auto;}

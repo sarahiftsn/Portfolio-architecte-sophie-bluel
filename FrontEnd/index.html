@@ -14,6 +14,7 @@
 </head>
 <body>
 	
+
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
@@ -40,7 +41,10 @@
 		</article>
 	</section>
 	<section id="portfolio">
+		<div class="modifier">
 		<h2>Mes Projets</h2>
+		<button id="modal" class="inactive"><i class="fa-regular fa-pen-to-square fa-lg"></i>modifier</button>
+	</div>
 		<div class="filtres">
 			<button id="0">TOUS</button>
 		
@@ -50,6 +54,14 @@
 		
 		</div>
 	</section>
+	<div class="containerModals">
+		<div class="modalgallery">
+			<span><i class="fa-solid fa-xmark"></i></span>
+			<h2>Galerie Photo</h2>
+			<div class="gallerymodal"></div>
+			<button>Ajouter une photo</button>
+		</div>
+	</div>
 	<section id="contact">
 		<h2>Contact</h2>
 		<p>Vous avez un projet ? Discutons-en !</p>

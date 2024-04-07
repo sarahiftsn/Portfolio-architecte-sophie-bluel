@@ -108,15 +108,55 @@ filterCategory();
 const loged = window.sessionStorage.loged; // Récupère le statut de connexion depuis le sessionStorage
 const admin = document.querySelector("header nav .admin");
 const logout = document.querySelector("header nav .logout");
+const modifierModals = document.querySelector(".inactive");
+const  containerModals =document.querySelector(".containerModals");
+const xMarks = document.querySelector(".fa-xmark");
+
 
 if (loged == "true") {
   // Si l'utilisateur est connecté
   admin.textContent = "Admin";
   logout.textContent = "Logout";
+ 
 
   logout.addEventListener("click", () => {
     // Ajoute un écouteur d'événement au bouton de déconnexion
     window.sessionStorage.loged = false; // Met à jour le statut de connexion dans le sessionStorage
     window.location.href = "./logout.html"; // Redirige vers la page de déconnexion
   });
+ 
 }
+// afficher le button modifier si utilisateur connecté
+if (loged == "true") {
+  // Si l'utilisateur est connecté 
+  modifierModals.style.display="flex";
+  modifierModals.addEventListener("click", () => {
+    containerModals.style.display="flex";
+
+ });
+ xMarks.addEventListener("click",()=> {
+  containerModals.style.display ="none";
+ });
+}
+
+
+// afficher les images dans la modale
+
+// Fonction pour afficher les images dans la modale
+async function affichageWorksModal() {
+  const works = await getWorks();
+  const galleryModal = document.querySelector(".gallerymodal"); // Sélectionnez l'élément où vous voulez afficher les images dans la modale
+  if (galleryModal) {
+      works.forEach(work => {
+          const img = document.createElement("img");
+          img.src = work.imageUrl;
+          img.alt = work.title;
+          galleryModal.appendChild(img);
+      });
+  } else {
+      console.error("Aucun élément avec la classe 'gallerymodal' n'a été trouvé.");
+  }
+}
+
+// Appelez la fonction pour afficher les images dans la modale
+affichageWorksModal();
