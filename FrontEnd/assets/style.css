@@ -224,8 +224,39 @@ color: #FFFFFF;}
 margin-bottom: 30px;
 display:flex;
 justify-content:center;}
+.modifier button {
+    display: flex; /* Permet d'aligner l'icône et le texte à l'intérieur du bouton */
+    align-items: center; /* Aligne verticalement les éléments enfants */
+    padding: 5px 10px; /* Ajoute un espacement à l'intérieur du bouton */
+    background-color: transparent; /* Supprime le fond du bouton */
+    border: none; /* Supprime la bordure du bouton */
+    cursor: pointer; /* Affiche un curseur au survol */
+	color:black;
+	
+}
+
+.modifier button i {
+    margin-right: 5px; /* Ajoute un espacement entre l'icône et le texte */
+}
+.modifier h2{padding-top:39px;
+width: 191px;
+height: 36px;
+font-size: 20px;
+margin-right: -30px;
+}
 
 
+
+
+.modifier{display: flex;
+justify-content: center;
+gap: 10px;}
+.inactive{display: none;}
+
+
+/* Style des éléments de photo */
+
+/* Style de la modale de la galerie photo */
 .containerModals{position: absolute;
 	top: 75%;
 	left: 0;
@@ -237,26 +268,35 @@ justify-content:center;}
 	
 }
 .modalgallery{background-color:#FFFFFF;
-box-sizing: border-box;
-width:630px;
-height:680px;
-border-radius:5px;
-display:flex;
-justify-content:space-around;
-flex-direction: column;
-align-items:center;}
-.modalgallery span {padding-left:370px;
-margin-bottom: -5px;
-margin-top: 10px;
-
-}
-.modalgallery h2{margin-bottom:-5px;}
-.modifier{display: flex;
-justify-content: center;
-gap: 10px;}
-.inactive{display: none;}
-.gallerymodal{display: flex;
-	flex-wrap: wrap;}
-.gallerymodal img {width: 110px;
-margin:5px;
-height:auto;}
+	box-sizing: border-box;
+	width:630px;
+	height:680px;
+	border-radius:5px;
+	display:flex;
+	justify-content:space-around;
+	flex-direction: column;
+	align-items:center;}
+	.modalgallery span {padding-left:370px;
+	margin-bottom: -5px;
+	margin-top: 10px;
+	
+	}
+	.photosmodal figure {
+		position: relative;
+	  }
+	  
+	  .photosmodal figure .js-delete {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		cursor: pointer;
+		background-color: rgba(255, 255, 255, 0.7);
+		padding: 5px;
+		border-radius: 50%;
+		transition: background-color 0.3s;
+	  }
+	  .photosmodal{display: flex;
+		flex-wrap: wrap;}
+	.photosmodal img {width: 110px;
+	margin:5px;
+	height:auto;}

@@ -106,7 +106,6 @@ filterCategory();
 
 // Changements quand user connecté //
 const loged = window.sessionStorage.loged; // Récupère le statut de connexion depuis le sessionStorage
-const admin = document.querySelector("header nav .admin");
 const logout = document.querySelector("header nav .logout");
 const modifierModals = document.querySelector(".inactive");
 const  containerModals =document.querySelector(".containerModals");
@@ -115,7 +114,7 @@ const xMarks = document.querySelector(".fa-xmark");
 
 if (loged == "true") {
   // Si l'utilisateur est connecté
-  admin.textContent = "Admin";
+ 
   logout.textContent = "Logout";
  
 
@@ -130,31 +129,49 @@ if (loged == "true") {
 if (loged == "true") {
   // Si l'utilisateur est connecté 
   modifierModals.style.display="flex";
+//lorsque l'utilsateur clique sur l'icone la modale s'ouvre
   modifierModals.addEventListener("click", () => {
     containerModals.style.display="flex";
 
  });
+ // Lorsque l'utilisateur clique en dehors de la modal, la fermer
+window.onclick = function(event) {
+  if (event.target == containerModals) {
+    containerModals.style.display = "none";
+  }
+}
+ 
  xMarks.addEventListener("click",()=> {
   containerModals.style.display ="none";
  });
+} else {
+  // Si l'utilisateur n'est pas connecté, masquer le bouton modifier
+  modifierModals.style.display = "none";
 }
 
 
-// afficher les images dans la modale
-
-// Fonction pour afficher les images dans la modale
+//affichage des images dans la modale
 async function affichageWorksModal() {
   const works = await getWorks();
-  const galleryModal = document.querySelector(".gallerymodal"); // Sélectionnez l'élément où vous voulez afficher les images dans la modale
+  const galleryModal = document.querySelector(".photosmodal"); // Sélectionnez l'élément où vous voulez afficher les images dans la modale
   if (galleryModal) {
       works.forEach(work => {
+          const figure = document.createElement("figure");
           const img = document.createElement("img");
+          const trashIcon = document.createElement("span");
+          const trashIconInner = document.createElement("i");
+          trashIconInner.classList.add("fa-solid", "fa-trash-can");
+          trashIcon.appendChild(trashIconInner);
+          trashIcon.classList.add("js-delete");
+          trashIcon.setAttribute("data-id", work.id);
           img.src = work.imageUrl;
           img.alt = work.title;
-          galleryModal.appendChild(img);
+          figure.appendChild(img);
+          figure.appendChild(trashIcon);
+          galleryModal.appendChild(figure);
       });
   } else {
-      console.error("Aucun élément avec la classe 'gallerymodal' n'a été trouvé.");
+      console.error("Aucun élément avec la classe 'photosmodal' n'a été trouvé.");
   }
 }
 
