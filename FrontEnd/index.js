@@ -177,3 +177,13 @@ async function affichageWorksModal() {
 
 // Appelez la fonction pour afficher les images dans la modale
 affichageWorksModal();
+
+//Affichage de la modale quand on clique sur ajouter une photo
+const affichageAjoutmodale = document.getElementById('modal-photo');
+const ajoutPhoto = document.querySelector(".ajoutphoto");
+
+ajoutPhoto.addEventListener("click", () => {
+  // Ajoute un écouteur d'événement au bouton ajouter photo
+  containerModals.style.display = "none";
+  affichageAjoutmodale.style.display ="flex";
+});
