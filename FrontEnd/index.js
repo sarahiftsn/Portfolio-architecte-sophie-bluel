@@ -164,6 +164,7 @@ async function affichageWorksModal() {
           trashIcon.appendChild(trashIconInner);
           trashIcon.classList.add("js-delete");
           trashIcon.setAttribute("data-id", work.id);
+          trashIcon.addEventListener("click", (event) => deleteImage(event, work.id)); // Ajoutez un écouteur d'événement pour le clic sur l'icône de la poubelle
           img.src = work.imageUrl;
           img.alt = work.title;
           figure.appendChild(img);
@@ -178,6 +179,31 @@ async function affichageWorksModal() {
 // Appelez la fonction pour afficher les images dans la modale
 affichageWorksModal();
 
+// Supprimer une image
+function deleteImage(event, id) {
+  fetch('http://localhost:5678/api/works/' + id, {
+      method: "DELETE",
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          // Ajoutez votre en-tête d'autorisation si nécessaire
+      },
+  })
+  .then(() => {
+      const parentFigure = event.target.closest("figure");
+      if (parentFigure) {
+          parentFigure.remove();
+          const alert = document.getElementById('alert');
+          alert.innerHTML = "Votre photo a été supprimée avec succès";
+          alert.style.display = "block";
+          setTimeout(() => { alert.style.display = "none"; }, 5000);
+      }
+  })
+  .catch((error) => {
+      console.error('Erreur :', error);
+  });
+}
+deleteImage();
 //Affichage de la modale quand on clique sur ajouter une photo
 const affichageAjoutmodale = document.getElementById('modal-photo');
 const ajoutPhoto = document.querySelector(".ajoutphoto");
@@ -187,3 +213,19 @@ ajoutPhoto.addEventListener("click", () => {
   containerModals.style.display = "none";
   affichageAjoutmodale.style.display ="flex";
 });
+const mark =document.getElementById("modal-photo-close")
+mark.addEventListener("click", () => {
+  // Ajoute un écouteur d'événement au bouton ajouter photo
+ 
+  affichageAjoutmodale.style.display ="none";
+
+});
+// Lorsque l'utilisateur clique en dehors de la modal, la fermer
+window.onclick = function(event) {
+  if (event.target ==  affichageAjoutmodale) {
+    affichageAjoutmodale.style.display = "none";
+  }
+  if (event.target == containerModals) {
+    containerModals.style.display = "none";
+  }
+}

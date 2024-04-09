@@ -69,17 +69,17 @@
 		<h2>Ajout photo</h2>
 		<form enctype="multipart/form-data" method="POST">
 			<div id="form-photo-div">
-				<i class="fa-regular fa-image" id="iModalImage" style="color: #c5c6c9;"></i>
+				<i class="fa-regular fa-image" id="iModalImage" ></i>
 				<label for="image" id="label-image">+ Ajouter une photo</label>
 				<input type="file" name="image" id="image" style="display: none;">
 				<p>jpg,png : 4mo max</p>
 			</div>
-			<div class="modal-photo-input">
-				<label for="title">Titre</label>
+			<div class="modal-photo-input" id="barre-titre">
+				<label for="title" class="titremodal">Titre</label>
 				<input type="text" name="title" id="modal-photo-title">
 			</div>
 			<div class="modal-photo-input" id="barre-grise">
-				<label for="category">Catégorie</label>
+				<label for="category" class="category">Catégorie</label>
 				<select name="category" id="modal-photo-category">
 					<option value="" selected></option>
 				</select>
