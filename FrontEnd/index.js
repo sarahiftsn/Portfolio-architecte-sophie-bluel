@@ -195,8 +195,7 @@ function deleteImage(event, id) {
           parentFigure.remove();
           const alert = document.getElementById('alert');
           alert.innerHTML = "Votre photo a été supprimée avec succès";
-          alert.style.display = "block";
-          setTimeout(() => { alert.style.display = "none"; }, 5000);
+          
       }
   })
   .catch((error) => {
