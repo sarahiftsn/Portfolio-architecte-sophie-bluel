@@ -107,8 +107,7 @@ filterCategory();
 // Changements quand user connecté //
 const loged = window.sessionStorage.loged; // Récupère le statut de connexion depuis le sessionStorage
 const logout = document.querySelector("header nav .logout");
-const modifierModals = document.querySelector(".inactive");
-const  containerModals =document.querySelector(".containerModals");
+
 const xMarks = document.querySelector(".fa-xmark");
 
 
@@ -126,9 +125,12 @@ if (loged == "true") {
  
 }
 // afficher le button modifier si utilisateur connecté
+const modifierModals = document.querySelector(".inactive");
+const  containerModals =document.querySelector(".containerModals");
 if (loged == "true") {
   // Si l'utilisateur est connecté 
   modifierModals.style.display="flex";
+}
 //lorsque l'utilsateur clique sur l'icone la modale s'ouvre
   modifierModals.addEventListener("click", () => {
     containerModals.style.display="flex";
@@ -145,7 +147,7 @@ window.onclick = function(event) {
   }
 }
  
-}
+
 //affichage des images dans la modale
 async function affichageWorksModal() {
   const works = await getWorks();
@@ -247,26 +249,28 @@ window.onclick = function(event) {
 let galleryImage = document.getElementById("uploadedimage");
 let inputFile = document.getElementById("image");
 const iconeImage = document.getElementById("iModalImage");
-const label = document.getElementById("modal-photo label");
-const input = document.getElementById("form-photo-div input");
-const paragraph = document.getElementById("form-photo-div p");
+const label = document.getElementById("label-image");
+const paragraph = document.getElementById("p");
 
 
- 
-inputFile.onchange = function(){
-  galleryImage.src =URL.createObjectURL(inputFile.files[0]);
-}
-inputFile.onchange = function(){
+
+inputFile.onchange = function() {
   // Vérifie s'il y a des fichiers sélectionnés
   if (inputFile.files && inputFile.files[0]) {
-      // Affiche le paragraphe contenant les informations sur les fichiers
-      galleryImage.style.display = "flex";
-      label.style.display = "none";
-     
+    // Crée une URL pour l'image téléchargée
+    var imageURL = URL.createObjectURL(inputFile.files[0]);
+    // Affiche l'image téléchargée
+    galleryImage.src = imageURL;
+    // Affiche le paragraphe contenant les informations sur les fichiers
+    galleryImage.style.display = "flex";
+    label.style.display = "none";
+    iconeImage.style.display = "none";
+    paragraph.style.display = "none";
   } else {
-      // Cache le paragraphe si aucun fichier n'est sélectionné
-      galleyImage.style.display = "none";
-      
+    // Cache l'image et affiche le texte de remplacement si aucun fichier n'est sélectionné
+    galleryImage.style.display = "none";
+    label.style.display = "flex";
+    iconeImage.style.display = "flex";
+    paragraph.style.display = "flex";
   }
 };
-
