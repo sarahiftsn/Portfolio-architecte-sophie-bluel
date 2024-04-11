@@ -134,6 +134,10 @@ if (loged == "true") {
     containerModals.style.display="flex";
 
  });
+ // lorque l'utilisateur clique sur la croix ,fermer la modale
+ xMarks.addEventListener("click", () => {
+  containerModals.style.display="none"
+});
  // Lorsque l'utilisateur clique en dehors de la modal, la fermer
 window.onclick = function(event) {
   if (event.target == containerModals) {
@@ -141,15 +145,7 @@ window.onclick = function(event) {
   }
 }
  
- xMarks.addEventListener("click",()=> {
-  containerModals.style.display ="none";
- });
-} else {
-  // Si l'utilisateur n'est pas connecté, masquer le bouton modifier
-  modifierModals.style.display = "none";
 }
-
-
 //affichage des images dans la modale
 async function affichageWorksModal() {
   const works = await getWorks();
@@ -179,7 +175,7 @@ async function affichageWorksModal() {
 // Appelez la fonction pour afficher les images dans la modale
 affichageWorksModal();
 
-// Supprimer une image
+//supprimer une image
 function deleteImage(event, id) {
   fetch('http://localhost:5678/api/works/' + id, {
       method: "DELETE",
@@ -203,6 +199,8 @@ function deleteImage(event, id) {
   });
 }
 deleteImage();
+
+
 //Affichage de la modale quand on clique sur ajouter une photo
 const affichageAjoutmodale = document.getElementById('modal-photo');
 const ajoutPhoto = document.querySelector(".ajoutphoto");
@@ -212,6 +210,21 @@ ajoutPhoto.addEventListener("click", () => {
   containerModals.style.display = "none";
   affichageAjoutmodale.style.display ="flex";
 });
+
+
+// Faire un retour en arrière quand on clique sur la fléche
+const returnModal = document.getElementById("modal-return")
+// Ajout d'un gestionnaire d'événements pour le clic sur l'icône de flèche retour
+returnModal.addEventListener("click", () => {
+  // Masquer la modale actuelle
+  affichageAjoutmodale.style.display = "none";
+  // Afficher la modale précédente
+  containerModals.style.display = "flex";
+});
+
+
+
+
 const mark =document.getElementById("modal-photo-close")
 mark.addEventListener("click", () => {
   // Ajoute un écouteur d'événement au bouton ajouter photo
@@ -228,3 +241,32 @@ window.onclick = function(event) {
     containerModals.style.display = "none";
   }
 }
+
+//fonction pour ajouter des projets
+
+let galleryImage = document.getElementById("uploadedimage");
+let inputFile = document.getElementById("image");
+const iconeImage = document.getElementById("iModalImage");
+const label = document.getElementById("modal-photo label");
+const input = document.getElementById("form-photo-div input");
+const paragraph = document.getElementById("form-photo-div p");
+
+
+ 
+inputFile.onchange = function(){
+  galleryImage.src =URL.createObjectURL(inputFile.files[0]);
+}
+inputFile.onchange = function(){
+  // Vérifie s'il y a des fichiers sélectionnés
+  if (inputFile.files && inputFile.files[0]) {
+      // Affiche le paragraphe contenant les informations sur les fichiers
+      galleryImage.style.display = "flex";
+      label.style.display = "none";
+     
+  } else {
+      // Cache le paragraphe si aucun fichier n'est sélectionné
+      galleyImage.style.display = "none";
+      
+  }
+};
+
