@@ -22,7 +22,8 @@ document.addEventListener("submit", (e) => {
       alert("Email ou mot de passe erronés");
     } else {
       response.json().then((data) => {
-        window.sessionStorage.loged = true; //STORE TOKEN
+        sessionStorage.setItem("token", data.token); //STORE TOKEN
+        
         window.location.replace("index.html");
       });
     }

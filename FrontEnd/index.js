@@ -103,51 +103,71 @@ async function filterCategory() {
 
 filterCategory();
 
-
 // Changements quand user connecté //
-const loged = window.sessionStorage.loged; // Récupère le statut de connexion depuis le sessionStorage
-const logout = document.querySelector("header nav .logout");
+document.addEventListener("DOMContentLoaded", () => {
+  const token = sessionStorage.getItem("token"); // Récupère le token depuis le sessionStorage
+  const logoutBtn = document.querySelector("header nav .logout");
+  const modifierModals = document.getElementById("modal");
+  const  containerModals =document.querySelector(".containerModals");
+  const xMarks = document.querySelector(".fa-xmark")
+  const affichageAjoutmodale = document.getElementById('modal-photo');
+const ajoutPhoto = document.querySelector(".ajoutphoto");
+const returnModal = document.getElementById("modal-return")
+const mark =document.getElementById("modal-photo-close")
 
-const xMarks = document.querySelector(".fa-xmark");
 
+  if (token) {
+    // Si un token est présent dans le sessionStorage, l'utilisateur est connecté
+    logoutBtn.textContent = "logout"; // Modifie le texte du bouton de déconnexion
+    modifierModals.style.display = "flex";
+  
+    // lorsque l'utilisateur clique sur l'icone, la modale s'ouvre
+    modifierModals.addEventListener("click", () => {
+      containerModals.style.display = "flex";
+    });
+  
+    // lorsque l'utilisateur clique sur la croix, fermer la modale
+    xMarks.addEventListener("click", () => {
+      containerModals.style.display = "none";
+    });
+    mark.addEventListener("click", () => {
+      // Ajoute un écouteur d'événement au bouton ajouter photo
+     
+      affichageAjoutmodale.style.display ="none";
+    
+    });
+    
+  
+    // Lorsque l'utilisateur clique en dehors de la modal, la fermer
+    window.onclick = function(event) {
+      if (event.target == containerModals) {
+        containerModals.style.display = "none";
+      }
+      if (event.target ==  affichageAjoutmodale) {
+        affichageAjoutmodale.style.display = "none";
+      }
+    };
+    
 
-if (loged == "true") {
-  // Si l'utilisateur est connecté
- 
-  logout.textContent = "Logout";
- 
-
-  logout.addEventListener("click", () => {
-    // Ajoute un écouteur d'événement au bouton de déconnexion
-    window.sessionStorage.loged = false; // Met à jour le statut de connexion dans le sessionStorage
-    window.location.href = "./logout.html"; // Redirige vers la page de déconnexion
-  });
- 
-}
-// afficher le button modifier si utilisateur connecté
-const modifierModals = document.getElementById("modal");
-const  containerModals =document.querySelector(".containerModals");
-if (loged == "true") {
-  // Si l'utilisateur est connecté 
-  modifierModals.style.display="flex";
-}
-//lorsque l'utilsateur clique sur l'icone la modale s'ouvre
-  modifierModals.addEventListener("click", () => {
-    containerModals.style.display="flex";
-
- });
- // lorque l'utilisateur clique sur la croix ,fermer la modale
- xMarks.addEventListener("click", () => {
-  containerModals.style.display="none"
+  
+    logoutBtn.addEventListener("click", () => {
+      // Ajoute un écouteur d'événement au bouton de déconnexion
+      sessionStorage.removeItem("token"); // Supprime le token du sessionStorage
+      window.location.href = "./logout.html"; // Redirige vers la page de déconnexion
+    });
+    ajoutPhoto.addEventListener("click", () => {
+      // Ajoute un écouteur d'événement au bouton ajouter photo
+      containerModals.style.display = "none";
+      affichageAjoutmodale.style.display ="flex";
+    });
+    // Faire un retour en arrière quand on clique sur la fléche
+// Ajout d'un gestionnaire d'événements pour le clic sur l'icône de flèche retour
+returnModal.addEventListener("click", () => {
+  // Masquer la modale actuelle
+  affichageAjoutmodale.style.display = "none";
+  // Afficher la modale précédente
+  containerModals.style.display = "flex";
 });
- // Lorsque l'utilisateur clique en dehors de la modal, la fermer
-window.onclick = function(event) {
-  if (event.target == containerModals) {
-    containerModals.style.display = "none";
-  }
-}
- 
-
 //affichage des images dans la modale
 async function affichageWorksModal() {
   const works = await getWorks();
@@ -177,131 +197,30 @@ async function affichageWorksModal() {
 // Appelez la fonction pour afficher les images dans la modale
 affichageWorksModal();
 
-//supprimer une image
+// Supprimer une image
 function deleteImage(event, id) {
   fetch('http://localhost:5678/api/works/' + id, {
-      method: "DELETE",
-      headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          // Ajoutez votre en-tête d'autorisation si nécessaire
-      },
+    method: "DELETE",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+
+      // Ajoutez votre en-tête d'autorisation si nécessaire
+    },
   })
   .then(() => {
-      const parentFigure = event.target.closest("figure");
-      if (parentFigure) {
-          parentFigure.remove();
-          const alert = document.getElementById('alert');
-          alert.innerHTML = "Votre photo a été supprimée avec succès";
-          
-      }
+    const parentFigure = event.target.closest("figure");
+    if (parentFigure) {
+      parentFigure.remove();
+      const alert = document.getElementById('alert');
+      alert.innerHTML = "Votre photo a été supprimée avec succès";
+    }
   })
   .catch((error) => {
-      console.error('Erreur :', error);
+    console.error('Erreur :', error);
   });
 }
-deleteImage();
 
-
-//Affichage de la modale quand on clique sur ajouter une photo
-const affichageAjoutmodale = document.getElementById('modal-photo');
-const ajoutPhoto = document.querySelector(".ajoutphoto");
-
-ajoutPhoto.addEventListener("click", () => {
-  // Ajoute un écouteur d'événement au bouton ajouter photo
-  containerModals.style.display = "none";
-  affichageAjoutmodale.style.display ="flex";
-});
-
-
-// Faire un retour en arrière quand on clique sur la fléche
-const returnModal = document.getElementById("modal-return")
-// Ajout d'un gestionnaire d'événements pour le clic sur l'icône de flèche retour
-returnModal.addEventListener("click", () => {
-  // Masquer la modale actuelle
-  affichageAjoutmodale.style.display = "none";
-  // Afficher la modale précédente
-  containerModals.style.display = "flex";
-});
-
-
-
-
-const mark =document.getElementById("modal-photo-close")
-mark.addEventListener("click", () => {
-  // Ajoute un écouteur d'événement au bouton ajouter photo
- 
-  affichageAjoutmodale.style.display ="none";
-
-});
-// Lorsque l'utilisateur clique en dehors de la modal, la fermer
-window.onclick = function(event) {
-  if (event.target ==  affichageAjoutmodale) {
-    affichageAjoutmodale.style.display = "none";
   }
-  if (event.target == containerModals) {
-    containerModals.style.display = "none";
-  }
-}
-//fonction pour ajouter des projets
-
-let galleryImage = document.getElementById("uploadedimage");
-let inputFile = document.getElementById("image");
-const iconeImage = document.getElementById("iModalImage");
-const label = document.getElementById("label-image");
-const paragraph = document.getElementById("p");
-
-
-inputFile.onchange = function() {
-  // Vérifie s'il y a des fichiers sélectionnés
-  if (inputFile.files && inputFile.files[0]) {
-    // Crée une URL pour l'image téléchargée
-    const imageURL = URL.createObjectURL(inputFile.files[0]);
-    // Affiche l'image téléchargée
-    galleryImage.src = imageURL;
-    // Affiche le paragraphe contenant les informations sur les fichiers
-    galleryImage.style.display = "flex";
-    label.style.display = "none";
-    iconeImage.style.display = "none";
-    paragraph.style.display = "none";
-  } else {
-    // Cache l'image et affiche le texte de remplacement si aucun fichier n'est sélectionné
-    galleryImage.style.display = "none";
-    label.style.display = "flex";
-    iconeImage.style.display = "flex";
-    paragraph.style.display = "flex";
-  }
-};
-
-//Créer les catégorie
-async function displayCategoryModal (){
-  const select = document.getElementById("modal-photo-category")
- const categories = await getCategories ()
- categories.forEach(category =>{
-  const option = document.createElement("option")
-  option.value = category.id
-  option.textContent = category.name
-  select.appendChild(option)
- })
-}
-displayCategoryModal();
-// title et category
-const tilte = document.getElementById("modal-photo-title")
-const form =document.querySelector(".formm")
-form.addEventListener("submit", async(e)=>{
-  e.preventDefault()
-  const formdata = new formdata (form)
-  fetch('http://localhost:5678/api/works/' , {
-    method: "POST",
-    headers: {
-        
-        'Content-Type': 'application/json',
-    }     
-})
-.then(response=> response.json())
-.then(data =>{
-  console.log(data);
-  affichageWorks()
-  containerModals()
-})
-})
+});
