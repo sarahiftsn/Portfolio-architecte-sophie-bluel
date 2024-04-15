@@ -125,7 +125,7 @@ if (loged == "true") {
  
 }
 // afficher le button modifier si utilisateur connecté
-const modifierModals = document.querySelector(".inactive");
+const modifierModals = document.getElementById("modal");
 const  containerModals =document.querySelector(".containerModals");
 if (loged == "true") {
   // Si l'utilisateur est connecté 
@@ -243,7 +243,6 @@ window.onclick = function(event) {
     containerModals.style.display = "none";
   }
 }
-
 //fonction pour ajouter des projets
 
 let galleryImage = document.getElementById("uploadedimage");
@@ -253,12 +252,11 @@ const label = document.getElementById("label-image");
 const paragraph = document.getElementById("p");
 
 
-
 inputFile.onchange = function() {
   // Vérifie s'il y a des fichiers sélectionnés
   if (inputFile.files && inputFile.files[0]) {
     // Crée une URL pour l'image téléchargée
-    var imageURL = URL.createObjectURL(inputFile.files[0]);
+    const imageURL = URL.createObjectURL(inputFile.files[0]);
     // Affiche l'image téléchargée
     galleryImage.src = imageURL;
     // Affiche le paragraphe contenant les informations sur les fichiers
@@ -274,3 +272,36 @@ inputFile.onchange = function() {
     paragraph.style.display = "flex";
   }
 };
+
+//Créer les catégorie
+async function displayCategoryModal (){
+  const select = document.getElementById("modal-photo-category")
+ const categories = await getCategories ()
+ categories.forEach(category =>{
+  const option = document.createElement("option")
+  option.value = category.id
+  option.textContent = category.name
+  select.appendChild(option)
+ })
+}
+displayCategoryModal();
+// title et category
+const tilte = document.getElementById("modal-photo-title")
+const form =document.querySelector(".formm")
+form.addEventListener("submit", async(e)=>{
+  e.preventDefault()
+  const formdata = new formdata (form)
+  fetch('http://localhost:5678/api/works/' , {
+    method: "POST",
+    headers: {
+        
+        'Content-Type': 'application/json',
+    }     
+})
+.then(response=> response.json())
+.then(data =>{
+  console.log(data);
+  affichageWorks()
+  containerModals()
+})
+})
