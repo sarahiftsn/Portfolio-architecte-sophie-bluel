@@ -213,8 +213,7 @@ function deleteImage(event, id) {
     const parentFigure = event.target.closest("figure");
     if (parentFigure) {
       parentFigure.remove();
-      const alert = document.getElementById('alert');
-      alert = "Votre photo a été supprimée avec succès";
+      alert("L'image a été supprimé avec succès.");
     }
   })
   .catch((error) => {
@@ -266,6 +265,7 @@ displayCategoryModal();
 
 // title et category
 // Sélectionner le formulaire avec la classe 'formm'
+// Sélectionner le formulaire avec la classe 'formm'
 const form = document.querySelector(".formm");
 
 // Ajouter un écouteur d'événements au formulaire pour l'événement 'submit'
@@ -304,6 +304,13 @@ form.addEventListener("submit", async (e) => {
     const img = document.createElement("img");
     img.src = data.imageUrl; // Supposons que l'API renvoie l'URL de l'image ajoutée
     containerModals.appendChild(img); // Ajoutez l'image à la modale containerModals
+    
+    // Ajouter l'image à la liste des images dans l'API sans rafraîchir la page
+    const gallery = document.querySelector(".gallery");
+    const imgThumbnail = document.createElement("img");
+    imgThumbnail.src = data.imageUrl;
+    gallery.appendChild(imgThumbnail);
+
     alert("L'image a été ajoutée avec succès.");
   })
   .catch(error => {
