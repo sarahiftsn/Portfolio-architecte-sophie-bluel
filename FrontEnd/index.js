@@ -214,13 +214,101 @@ function deleteImage(event, id) {
     if (parentFigure) {
       parentFigure.remove();
       const alert = document.getElementById('alert');
-      alert.innerHTML = "Votre photo a été supprimée avec succès";
+      alert = "Votre photo a été supprimée avec succès";
     }
   })
   .catch((error) => {
     console.error('Erreur :', error);
   });
 }
+deleteImage();
+  //fonction pour ajouter des projets
 
+let galleryImage = document.getElementById("uploadedimage");
+let inputFile = document.getElementById("image");
+const iconeImage = document.getElementById("iModalImage");
+const label = document.getElementById("label-image");
+const paragraph = document.getElementById("p");
+
+
+inputFile.onchange = function() {
+  // Vérifie s'il y a des fichiers sélectionnés
+  if (inputFile.files && inputFile.files[0]) {
+    // Crée une URL pour l'image téléchargée
+    const imageURL = URL.createObjectURL(inputFile.files[0]);
+    // Affiche l'image téléchargée
+    galleryImage.src = imageURL;
+    // Affiche le paragraphe contenant les informations sur les fichiers
+    galleryImage.style.display = "flex";
+    label.style.display = "none";
+    iconeImage.style.display = "none";
+    paragraph.style.display = "none";
+  } else {
+    // Cache l'image et affiche le texte de remplacement si aucun fichier n'est sélectionné
+    galleryImage.style.display = "none";
+    label.style.display = "flex";
+    iconeImage.style.display = "flex";
+    paragraph.style.display = "flex";
+  }
+};
+//Créer les catégorie
+async function displayCategoryModal (){
+  const select = document.getElementById("modal-photo-category")
+ const categories = await getCategories ()
+ categories.forEach(category =>{
+  const option = document.createElement("option")
+  option.value = category.id
+  option.textContent = category.name
+  select.appendChild(option)
+ })
+}
+displayCategoryModal();
+
+// title et category
+// Sélectionner le formulaire avec la classe 'formm'
+const form = document.querySelector(".formm");
+
+// Ajouter un écouteur d'événements au formulaire pour l'événement 'submit'
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  // Récupérer les valeurs des champs de titre et de catégorie
+  const title = document.getElementById("modal-photo-title").value;
+  const category = document.getElementById("modal-photo-category").value;
+
+  // Vérifier que les champs de titre et de catégorie ne sont pas vides
+  if (title.trim() === "" || category.trim() === "") {
+    alert("Veuillez remplir tous les champs.");
+    return;
+  }
+
+  const formData = new FormData(form);
+
+  // Envoyer une requête POST à l'API avec les données de l'image, du titre et de la catégorie
+  fetch('http://localhost:5678/api/works/', {
+    method: "POST",
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    body: formData
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('La requête a échoué');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Mettre à jour l'interface utilisateur pour afficher l'image ajoutée dans la modale containerModals
+    const containerModals = document.querySelector(".containerModals");
+    const img = document.createElement("img");
+    img.src = data.imageUrl; // Supposons que l'API renvoie l'URL de l'image ajoutée
+    containerModals.appendChild(img); // Ajoutez l'image à la modale containerModals
+    alert("L'image a été ajoutée avec succès.");
+  })
+  .catch(error => {
+    console.error('Erreur :', error);
+  });
+});
   }
 });
