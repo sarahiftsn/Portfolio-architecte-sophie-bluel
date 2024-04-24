@@ -143,13 +143,9 @@ const mark =document.getElementById("modal-photo-close")
       if (event.target == containerModals) {
         containerModals.style.display = "none";
       }
-      if (event.target ==  affichageAjoutmodale) {
-        affichageAjoutmodale.style.display = "none";
-      }
     };
+   
     
-
-  
     logoutBtn.addEventListener("click", () => {
       // Ajoute un écouteur d'événement au bouton de déconnexion
       sessionStorage.removeItem("token"); // Supprime le token du sessionStorage
@@ -168,10 +164,17 @@ returnModal.addEventListener("click", () => {
   // Afficher la modale précédente
   containerModals.style.display = "flex";
 });
+// Ajoutez un écouteur d'événements de clic à l'ensemble de la page pour fermer la deuxième modale en cliquant en dehors d'elle
+window.addEventListener("click", function(event) {
+  if (event.target !== affichageAjoutmodale && !affichageAjoutmodale.contains(event.target) && event.target !== ajoutPhoto) {
+      affichageAjoutmodale.style.display = "none";
+  }
+});
+
 //affichage des images dans la modale
 async function affichageWorksModal() {
   const works = await getWorks();
-  const galleryModal = document.querySelector(".photosmodal"); // Sélectionnez l'élément où vous voulez afficher les images dans la modale
+  const galleryModal = document.querySelector(".photosmodal"); //Je  Sélectionne l'élément où vous voulez afficher les images dans la modale
   if (galleryModal) {
       works.forEach(work => {
           const figure = document.createElement("figure");
@@ -182,7 +185,15 @@ async function affichageWorksModal() {
           trashIcon.appendChild(trashIconInner);
           trashIcon.classList.add("js-delete");
           trashIcon.setAttribute("data-id", work.id);
-          trashIcon.addEventListener("click", (event) => deleteImage(event, work.id)); // Ajoutez un écouteur d'événement pour le clic sur l'icône de la poubelle
+          trashIcon.addEventListener("click", async (event) => {
+            try {
+                await deleteImage(event, work.id);
+                updateUIAfterImageDeleted(event);
+            } catch (error) {
+                console.error('Erreur lors de la suppression de l\'image :', error);
+            }
+        }); // Ajout d'un écouteur d'événement pour le clic sur l'icône de la poubelle
+        img.src = work.imageUrl;
           img.src = work.imageUrl;
           img.alt = work.title;
           figure.appendChild(img);
@@ -193,34 +204,40 @@ async function affichageWorksModal() {
       console.error("Aucun élément avec la classe 'photosmodal' n'a été trouvé.");
   }
 }
-
 // Appelez la fonction pour afficher les images dans la modale
 affichageWorksModal();
 
 // Supprimer une image
+
 function deleteImage(event, id) {
   fetch('http://localhost:5678/api/works/' + id, {
-    method: "DELETE",
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-
-      // Ajoutez votre en-tête d'autorisation si nécessaire
-    },
+      method: "DELETE",
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+      }
   })
-  .then(() => {
-    const parentFigure = event.target.closest("figure");
-    if (parentFigure) {
-      parentFigure.remove();
-      alert("L'image a été supprimé avec succès.");
-    }
+  .then(response => {
+      if (response.ok) {
+          const parentFigure = event.target.closest("figure");
+          if (parentFigure) {
+              parentFigure.remove();
+              alert("L'image a été supprimée avec succès.");
+          }
+      } else {
+          throw new Error('La suppression a échoué');
+      }
   })
   .catch((error) => {
-    console.error('Erreur :', error);
+      console.error('Erreur lors de la suppression :', error);
+      alert("Une erreur s'est produite lors de la suppression de l'image.");
   });
 }
-deleteImage();
+
+
+
+
   //fonction pour ajouter des projets
 
 let galleryImage = document.getElementById("uploadedimage");
@@ -265,7 +282,7 @@ displayCategoryModal();
 
 // title et category
 // Sélectionner le formulaire avec la classe 'formm'
-// Sélectionner le formulaire avec la classe 'formm'
+
 const form = document.querySelector(".formm");
 
 // Ajouter un écouteur d'événements au formulaire pour l'événement 'submit'
@@ -302,7 +319,7 @@ form.addEventListener("submit", async (e) => {
     // Mettre à jour l'interface utilisateur pour afficher l'image ajoutée dans la modale containerModals
     const containerModals = document.querySelector(".containerModals");
     const img = document.createElement("img");
-    img.src = data.imageUrl; // Supposons que l'API renvoie l'URL de l'image ajoutée
+    img.src = data.imageUrl; // Si l'API renvoie l'URL de l'image ajoutée
     containerModals.appendChild(img); // Ajoutez l'image à la modale containerModals
     
     // Ajouter l'image à la liste des images dans l'API sans rafraîchir la page
