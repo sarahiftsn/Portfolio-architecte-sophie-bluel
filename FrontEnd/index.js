@@ -50,6 +50,7 @@ function arrayWorks(work) {
   figure.appendChild(img);
   figure.appendChild(figcaption);
   gallery.appendChild(figure);
+
 }
 
 //*********Affichage des boutons par catégorie*************/
@@ -114,6 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
 const ajoutPhoto = document.querySelector(".ajoutphoto");
 const returnModal = document.getElementById("modal-return")
 const mark =document.getElementById("modal-photo-close")
+const photosModal = document.querySelector(".photosmodal")
+
 
 
   if (token) {
@@ -188,7 +191,10 @@ async function affichageWorksModal() {
           trashIcon.addEventListener("click", async (event) => {
             try {
                 await deleteImage(event, work.id);
-                updateUIAfterImageDeleted(event);
+                
+                
+                
+                
             } catch (error) {
                 console.error('Erreur lors de la suppression de l\'image :', error);
             }
@@ -200,12 +206,15 @@ async function affichageWorksModal() {
           figure.appendChild(trashIcon);
           galleryModal.appendChild(figure);
       });
+      
   } else {
       console.error("Aucun élément avec la classe 'photosmodal' n'a été trouvé.");
   }
 }
 // Appelez la fonction pour afficher les images dans la modale
-affichageWorksModal();
+
+
+
 
 // Supprimer une image
 
@@ -224,6 +233,8 @@ function deleteImage(event, id) {
           if (parentFigure) {
               parentFigure.remove();
               alert("L'image a été supprimée avec succès.");
+              // Appeler la fonction pour mettre à jour l'affichage après la suppression de l'image
+             
           }
       } else {
           throw new Error('La suppression a échoué');
@@ -232,20 +243,21 @@ function deleteImage(event, id) {
   .catch((error) => {
       console.error('Erreur lors de la suppression :', error);
       alert("Une erreur s'est produite lors de la suppression de l'image.");
+      
   });
 }
 
+affichageWorksModal();
 
 
 
-  //fonction pour ajouter des projets
 
+// Fonction pour ajouter des projets
 let galleryImage = document.getElementById("uploadedimage");
 let inputFile = document.getElementById("image");
 const iconeImage = document.getElementById("iModalImage");
 const label = document.getElementById("label-image");
 const paragraph = document.getElementById("p");
-
 
 inputFile.onchange = function() {
   // Vérifie s'il y a des fichiers sélectionnés
@@ -267,22 +279,22 @@ inputFile.onchange = function() {
     paragraph.style.display = "flex";
   }
 };
+
 //Créer les catégorie
-async function displayCategoryModal (){
-  const select = document.getElementById("modal-photo-category")
- const categories = await getCategories ()
- categories.forEach(category =>{
-  const option = document.createElement("option")
-  option.value = category.id
-  option.textContent = category.name
-  select.appendChild(option)
- })
+async function displayCategoryModal() {
+  const select = document.getElementById("modal-photo-category");
+  const categories = await getCategories();
+  categories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category.id;
+    option.textContent = category.name;
+    select.appendChild(option);
+  });
 }
 displayCategoryModal();
 
 // title et category
 // Sélectionner le formulaire avec la classe 'formm'
-
 const form = document.querySelector(".formm");
 
 // Ajouter un écouteur d'événements au formulaire pour l'événement 'submit'
@@ -317,11 +329,36 @@ form.addEventListener("submit", async (e) => {
   })
   .then(data => {
     // Mettre à jour l'interface utilisateur pour afficher l'image ajoutée dans la modale containerModals
-    const containerModals = document.querySelector(".containerModals");
+    const photosModal = document.querySelector(".photosmodal");
     const img = document.createElement("img");
     img.src = data.imageUrl; // Si l'API renvoie l'URL de l'image ajoutée
-    containerModals.appendChild(img); // Ajoutez l'image à la modale containerModals
-    
+
+    // Créer l'icône de la corbeille pour supprimer l'image
+    const trashIcon = document.createElement("span");
+    const trashIconInner = document.createElement("i");
+    trashIconInner.classList.add("fa-solid", "fa-trash-can");
+    trashIcon.appendChild(trashIconInner);
+    trashIcon.classList.add("js-delete");
+    trashIcon.setAttribute("data-id", data.id);
+
+    // Ajouter un écouteur d'événement pour le clic sur l'icône de la corbeille
+    trashIcon.addEventListener("click", async (event) => {
+      try {
+        await deleteImage(event, data.id);
+        // Supprimer l'image de l'interface utilisateur après la suppression réussie
+        img.remove();
+       console.log("L'image a été supprimée avec succès.");
+      } catch (error) {
+        console.error('Erreur lors de la suppression de l\'image :', error);
+      }
+    });
+
+    // Ajouter l'image et l'icône de la corbeille à la modale
+    const figure = document.createElement("figure");
+    figure.appendChild(img);
+    figure.appendChild(trashIcon);
+    photosModal.appendChild(figure);
+
     // Ajouter l'image à la liste des images dans l'API sans rafraîchir la page
     const gallery = document.querySelector(".gallery");
     const imgThumbnail = document.createElement("img");
@@ -329,10 +366,14 @@ form.addEventListener("submit", async (e) => {
     gallery.appendChild(imgThumbnail);
 
     alert("L'image a été ajoutée avec succès.");
+    filterCategory();
   })
   .catch(error => {
     console.error('Erreur :', error);
   });
 });
-  }
+
+}
 });
+ 
+
