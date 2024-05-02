@@ -316,6 +316,16 @@ form.addEventListener("submit", async (e) => {
 
   const formData = new FormData(form);
 
+  // Fonction pour réinitialiser les champs du formulaire
+function resetFormFields() {
+  document.getElementById("modal-photo-title").value = "";
+  document.getElementById("modal-photo-category").selectedIndex = 0; // Réinitialiser la sélection de la catégorie à la première option
+    galleryImage.style.display = "none";
+    label.style.display = "flex";
+    iconeImage.style.display = "flex";
+    paragraph.style.display = "flex";
+}
+
   // Envoyer une requête POST à l'API avec les données de l'image, du titre et de la catégorie
   fetch('http://localhost:5678/api/works/', {
     method: "POST",
@@ -369,6 +379,7 @@ form.addEventListener("submit", async (e) => {
     gallery.appendChild(imgThumbnail);
 
     alert("L'image a été ajoutée avec succès.");
+    resetFormFields();
     filterCategory();
   })
   .catch(error => {
