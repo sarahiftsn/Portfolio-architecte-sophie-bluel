@@ -200,6 +200,8 @@ padding-bottom: 20px;}
 		justify-content: center;
 	margin-right:50px;
 }
+
+
 		#login {
 			width: 60%; /* Réduire la largeur du formulaire */
 			margin: 0 auto; /* Centrer horizontalement le formulaire */
@@ -226,7 +228,7 @@ padding-bottom: 20px;}
 	            color: black;
 			}
 
-button{border-radius: 60px ;
+.filtres button{border-radius: 60px ;
 	  border: 2px solid #1D6154;
 	  font-weight: bold;
       color:#1D6154;
@@ -251,7 +253,7 @@ gap: 10px;
 .modifier button {
     display: flex; /* Permet d'aligner l'icône et le texte à l'intérieur du bouton */
     align-items: center; /* Aligne verticalement les éléments enfants */
-    padding: 5px 10px; /* Ajoute un espacement à l'intérieur du bouton */
+    padding: 5px 10px; /* oute un espacement à l'intérieur du bouton */
     background-color: transparent; /* Supprime le fond du bouton */
     border: none; /* Supprime la bordure du bouton */
     cursor: pointer; /* Affiche un curseur au survol */
@@ -276,7 +278,19 @@ margin-right: -30px;
 justify-content: center;
 gap: 10px;}
 #modal{display: none;}
+.ajoutphoto{
+	border-radius: 60px;
+	width: 236px;
+	height:36px;
+	background-color: #1D6154;
+	font-family: 'Syne';
+	color:#FFFFFF;
+	font-size: 14px;
+	cursor: pointer;
+	margin-bottom: 20px;
 
+	
+}
 
 /* Style des éléments de photo */
 
@@ -294,17 +308,33 @@ gap: 10px;}
 }
 .modalgallery{background-color:#FFFFFF;
 	box-sizing: border-box;
-	width:630px;
-	height:680px;
+	width: 720px;
+	height:688px;
 	border-radius:5px;
 	display:flex;
 	justify-content:space-around;
 	flex-direction: column;
 	align-items:center;}
-	.modalgallery .fa-xmark {padding-left:370px;
+	.modalgallery .fa-xmark {
+	padding-left:650px;
 	margin-bottom: -5px;
 	margin-top: 10px;
+	cursor: pointer;
+	width: 24px;
+    height: 24px;
+}
+	.modalgallery h2{
+		margin-bottom:50px;
+		color: #000000;
+		font-family: 'Work Sans';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 26px;
 	
+		width: 173px;
+		height: 30px;		
+        width: 173px;
+        height: 30px;
 	}
 	.photosmodal figure {
 		position: relative;
@@ -315,7 +345,8 @@ gap: 10px;}
 		top: 5px;
 		right: 5px;
 		cursor: pointer;
-		background-color: rgba(255, 255, 255, 0.7);
+		background-color: black; /* Fond noir */
+        color: white; /* Couleur de l'icône blanche */
 		padding: 5px;
 		border-radius: 50%;
 		transition: background-color 0.3s;
@@ -323,33 +354,42 @@ gap: 10px;}
 	  .photosmodal{display:flex;
 		flex-wrap: wrap;
 		border-bottom: 1px solid #ccc;
+		margin: -5% 3% 20px 6%;
+		padding-bottom: 50px;
 		position: relative;
 		box-sizing: border-box; /* Assurez-vous que la bordure est incluse dans la largeur et la hauteur de .photosmodal */
 	}
 		
 	.photosmodal img {width: 110px;
 	margin:5px;
-	height:auto;}
+	height:auto;
+	}
 
 	#modal-photo{display:flex;
 	flex-direction: column;
 	box-sizing: border-box;
-	width:630px;
+	width:660px;
 	height:670px;
 	filter: drop-shadow(0em 0.1875em 0.9375em rgba(0, 0, 0, 0.1));
 	position: absolute;
-    top: 83%;
+    top: 95%;
     left: 30%;
     background-color: #FFFFFF;
 	align-items:center;}
 	#modal-photo-close{margin-left:500px ;
 		border: none;
+		background-color: white;
+		color: #000000;
+		margin-top:40px;
+		cursor: pointer;
 		}
 	#modal-return{margin-right: 500px;
 	margin-bottom: 100px;
-    margin-top:-40px;
+    margin-top:-10px;
     border: none;
-	cursor: pointer;}
+	cursor: pointer;
+    color:#000000;
+    background-color: white;}
 	
 	#modal-photo-title {width: 420px;
 	height:51px;}
@@ -364,8 +404,12 @@ gap: 10px;}
 	#modal-photo-category {border-bottom:1px solid #c5c6c9;
 		margin-bottom:70px;
 	}
-	
-	#modal-photo h2{margin-top:-130px;
+	#modal-photo h2{
+		margin-top: -70px;
+		margin-bottom: 20px;
+		color: #000000;
+	}
+	#modal-photo {margin-top:-130px;
 	margin-bottom:30px;}
 	#form-photo-div{display: flex;
 	flex-direction:column;
@@ -412,7 +456,8 @@ margin-bottom: 10px;}
 margin-left:100px;
 width:237px;
 height: 36px;
-background-color: #A7A7A7;}
+background-color: #A7A7A7;
+cursor: pointer;}
 #alert{display:none;}
 
 #uploadedimage{
