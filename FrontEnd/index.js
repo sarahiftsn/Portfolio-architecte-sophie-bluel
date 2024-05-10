@@ -53,7 +53,7 @@ async function getCategories() {
   return await response.json();
 }
 
-// Affichage des boutons de filtre par catégorie
+
 // Affichage des boutons de filtre par catégorie
 async function displayCategoriesButtons() {
   const token = sessionStorage.getItem("token"); // Récupère le token depuis le sessionStorage
@@ -66,6 +66,7 @@ async function displayCategoriesButtons() {
         btn.textContent = category.name;
         btn.id = category.id;
         filtres.appendChild(btn);
+        
       });
     } else {
       console.error("Aucune catégorie n'a été trouvée.");
@@ -78,20 +79,28 @@ displayCategoriesButtons();
 async function filterCategory() {
   const works = await getWorks();
   const buttons = document.querySelectorAll(".filtres button");
+  //Cela signifie que pour chaque bouton dans la liste buttons, nous allons exécuter le code à l'intérieur des accolades.
   buttons.forEach((button) => {
     button.addEventListener("click", async (e) => {
-      const btnId = e.target.id;
+      const btnId = e.target.id;// Cela récupère l'ID du bouton sur lequel vous avez cliqué.
       gallery.innerHTML = "";
-      if (btnId !== "0") {
+      buttons.forEach(btn => btn.classList.remove("active")); // Supprimer la classe active de tous les boutons
+            e.target.classList.add("active"); // Ajouter la classe active au bouton actuel
+      // Filtrer les travaux par catégorie et les afficher dans la galerie
+      if (btnId !== "0") {// Vérifier si le bouton cliqué correspond à une catégorie spécifique (0 correspond généralement à "Tous")
+        // Filtrer les travaux pour obtenir uniquement ceux appartenant à la catégorie sélectionnée
         const worksByCategory = works.filter((work) => {
-          return work.categoryId == btnId;
+          return work.categoryId == btnId;// Vérifier si l'ID de la catégorie du travail correspond à l'ID de la catégorie du bouton cliqué
         });
+        // Parcourir les travaux filtrés par catégorie et les afficher dans la galerie
+
         worksByCategory.forEach((work) => {
           arrayWorks(work);
         });
-      } else {
+      } else {// Si le bouton "Tous" est cliqué, afficher tous les travaux sans filtrage
+      // Afficher tous les travaux dans la galerie, car le bouton "Tous" a été cliqué
         works.forEach((work) => {
-          arrayWorks(work);
+          arrayWorks(work);// Appeler la fonction arrayWorks pour créer et afficher chaque élément de travail dans la galerie
         });
       }
     });
@@ -113,6 +122,7 @@ const returnModal = document.getElementById("modal-return")
 const mark =document.getElementById("modal-photo-close")
 const photosModal = document.querySelector(".photosmodal")
 const tous = document.getElementById("0")
+const bandeau = document.querySelector(".bandeau-edition")
 
 
 
@@ -122,6 +132,7 @@ const tous = document.getElementById("0")
     logoutBtn.textContent = "logout"; // Modifie le texte du bouton de déconnexion
     modifierModals.style.display = "flex";
     tous.style.display ="none";
+    bandeau.style.display="flex";
     
   
     // lorsque l'utilisateur clique sur l'icone, la modale s'ouvre

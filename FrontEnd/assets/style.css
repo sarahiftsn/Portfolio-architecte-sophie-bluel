@@ -36,6 +36,27 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+#loginheader {
+	display: flex;
+	justify-content: space-between;
+	margin: 50px 0
+}
+header .bordure-classic{
+	display: flex;
+	justify-content: space-between;
+	margin: 50px 0
+}
+.bandeau-edition{
+	display: flex;
+	flex-direction:center;
+	justify-content: center;
+	color:white;
+	background-color: black;
+	width: auto;
+	height: 59px;
+	
+	
+}
 body {
 	line-height: 1;
 }
@@ -61,15 +82,14 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
-header {
-	display: flex;
-	justify-content: space-between;
-	margin: 50px 0
-}
+
 section {
 	margin: 50px 0
 }
-
+.filtres button.active {
+    background-color: #1D6154;
+    color: white;
+}
 h1{
 	display: flex;
 	flex-direction: column;
@@ -86,6 +106,15 @@ h1 > span {
 ;
 }
 
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav a, nav img {
+    margin-left: 20px;
+}
 h2{
 	font-family: 'Syne';
 	font-weight: 700;
@@ -430,6 +459,7 @@ gap: 10px;}
    
    
 }
+
 #label-image{border:1px solid #c5c6c9;
 width:155px;
 height: 20px;
